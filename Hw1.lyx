@@ -1,0 +1,344 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass amsart
+\begin_preamble
+\usepackage{xcolor}
+\pagecolor[rgb]{0.15,0.15,0.15} %black
+\color[rgb]{1,1,1} %grey
+
+\newfontfamily\mylistingsfont{Droid Sans Mono for Powerline}
+\definecolor{lbcolor}{rgb}{0.3,0.3,0.3}  
+\definecolor{lkwcolor}{rgb}{0.7,0.7,0.9}  
+\end_preamble
+\use_default_options true
+\begin_removed_modules
+theorems-ams
+\end_removed_modules
+\begin_modules
+eqs-within-sections
+figs-within-sections
+linguistics
+theorems-bytype
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "Arial"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 1cm
+\rightmargin 1cm
+\bottommargin 1.5cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip smallskip
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\listings_params "basicstyle={\mylistingsfont},language={C++},backgroundcolor={\color{lbcolor}},showstringspaces=false,xleftmargin=5mm,aboveskip=0pt,belowskip=0pt,keywordstyle={\bfseries\color{lkwcolor}},morekeywords={include, printf}"
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Network Security Hw1
+\end_layout
+
+\begin_layout Author
+Gur Telem 206631848
+\end_layout
+
+\begin_layout Section
+Question 1
+\end_layout
+
+\begin_layout Subsection
+ARP spoofing
+\end_layout
+
+\begin_layout Subsubsection
+What is ARP spoofing
+\end_layout
+
+\begin_layout Standard
+An ARP spoofing attack is a type of attack where an attacker repeatedly
+ identifies as a different computer on the network and thus causes a false
+ linking between the victim computer's IP and the attacker's MAC address
+ on other devices on the network.
+ Then, whenever a device on the network wants to send a message to the victim's
+ computer, it will reach the attacker instead (because communication in
+ the LAN is done by MAC addresses).
+\end_layout
+
+\begin_layout Subsubsection
+What can an attacker get from such an attack
+\end_layout
+
+\begin_layout Standard
+By using such an attack, an attacker can receive sensitive information.
+ For example, if an attacker pretends to be an authentication server on
+ the LAN, it will receive all of the authentication messages sent by clients
+ and by that will be able to collect login details.
+ The attacker can even forward the requests from the clients to the real
+ destination endpoint and such they will effectively be doing a mitm attack.
+\end_layout
+
+\begin_layout Subsubsection
+How can an attacker answer first
+\end_layout
+
+\begin_layout Standard
+Assuming an attacker knows which computers are going to send an ARP request,
+ they can repeatedly start sending the response (identifying as the victim)
+ before they even receive the request and by that, they will most likely
+ be able to answer before even the legitimate computer (victim) will even
+ receive the request to identify.
+\end_layout
+
+\begin_layout Subsubsection
+Suggest a way to protect against an ARP attack
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Good suggestion:
+\end_layout
+
+\begin_layout Standard
+The simplest way to block such an attack is to only allow automatic IP assignmen
+t by the DHCP server and then to set all the routing devices on the network
+ to block any ARP responses with mismatching MAC/IP combination.
+ If an endpoint requires a static IP address, it should be set in the DHCP
+ server to always reserve that IP for the endpoint's MAC address.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+A not very good suggestion:
+\end_layout
+
+\begin_layout Standard
+If we want to allow self assigned static IP for endpoints we can still partially
+ protect from ARP attacks by caching on routing devices (routers, switches,
+ etc...) the ARP requests and if they get an ARP response message that doesn't
+ match any request in the cache, they will block the packet.
+\end_layout
+
+\begin_layout Standard
+This will not prevent an attacker from impersonating a victim located far
+ away from the endpoint that sent the ARP msg (which will make it more likely
+ the attacker will answer first as they are closer).
+\end_layout
+
+\begin_layout Subsection
+Why should users install security updates ASAP
+\end_layout
+
+\begin_layout Standard
+Users should install security patches and updates ASAP because when a patch
+ is issued, then it's a bonfire for attackers to exploit the issue and start
+ developing malicious attacks based on the breach.
+ Announced vulnerabilities are called a one-days (zero-days are exploits
+ not publicly announced or known, and most times unpatched too).
+\end_layout
+
+\begin_layout Standard
+An example for this is the Blaster worm (Chinese researchers RE the security
+ patch and created the worm).
+\end_layout
+
+\begin_layout Subsection
+Student in MIT in 1988 (Nov 3rd) had his computer crashing every few minutes
+\end_layout
+
+\begin_layout Subsubsection
+Why did the computer crash that day
+\end_layout
+
+\begin_layout Standard
+The computer crashed because that day there was a worm running on the network
+ (written by Robert Tappan Morris) that had a problem that caused the computers
+ on the network to exponentially fill up with processes of itself and crash
+ them.
+\end_layout
+
+\begin_layout Subsubsection
+Why did it take a few minutes after restart to crash
+\end_layout
+
+\begin_layout Standard
+The worm didn't save any files on the disk (or rather it deleted them after
+ loading everything to memory).
+ So it had no persistency after a reboot of the machine.
+ But the exploit still existed on the network so the student's computer
+ got infected again.
+ The bug that caused exponentially increasing number of instances of the
+ worm to run on the machine, until the process table filled and the computer
+ crashed (there was a 1 to 7 chance that the worm would not kill itself
+ even if there's a duplicate of itself).
+ The process took a few minutes.
+\end_layout
+
+\begin_layout Subsubsection
+Suggest a simple way for the student to prevent his computer from crashing
+ until he finishes the assignment
+\end_layout
+
+\begin_layout Standard
+Since the worm relied on re-infections after restart, the user could disconnect
+ the internet, restart (to make sure it wasn't infected already), and then
+ not re-connect the internet until the assignment is done.
+\end_layout
+
+\begin_layout Subsection
+Buffer Overflow questions
+\end_layout
+
+\begin_layout Subsubsection
+What is BOF and how can a worm use it
+\end_layout
+
+\begin_layout Standard
+BOF (buffer overflow) is an vulnerability that allows more data to be written
+ to a buffer than the buffer can hold and by that, overwriting the memory
+ adjacent to the buffer (that contains other information, such as the return
+ address from the function).
+\end_layout
+
+\begin_layout Standard
+The worm can use the BOF vulnerability by replacing the return address of
+ the function by the address to a function that the worm write (to the buffer
+ for example).
+ The worm's code can be written to the buffer and the return address is
+ replaced with the address of the buffer.
+ Then, when the function reaches the 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+ret
+\end_layout
+
+\end_inset
+
+ instruction, it will 
+\begin_inset Quotes eld
+\end_inset
+
+return
+\begin_inset Quotes erd
+\end_inset
+
+ (jump) to the address of the buffer and start reading it as instruction
+ to execute.
+ This kind of exploit is called arbitrary code execution.
+\end_layout
+
+\begin_layout Subsubsection
+Give two examples for worms that used BOF
+\end_layout
+
+\begin_layout Enumerate
+The worm from section 3 at MIT in 1988 that exploited a BOF in the 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+finderd
+\end_layout
+
+\end_inset
+
+ daemon.
+\end_layout
+
+\begin_layout Enumerate
+A second example would be the worm Blaster which used BOF in the RPC functionali
+ty which was patched in MS03-026
+\end_layout
+
+\begin_layout Subsubsection
+Choose one example and explain how it used BOF (Blaster)
+\end_layout
+
+\begin_layout Standard
+The RPC service was used port 445 which was open by default on every computer.
+ In combination with a BOF vulnerability and the lack of mitigation on which
+ code can be executed (today, code on the stack is set to RW but not E),
+ it was able to write the execution code to the buffer and using the BOF
+ to overwrite the ret address such that the it would point to the written
+ code in the buffer.
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\end_body
+\end_document
