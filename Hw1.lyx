@@ -453,10 +453,301 @@ Physical layer - The actual physical signals being sent (optical signal,
 \end_layout
 
 \begin_layout Subsection
-Write Python Code
+Write Python 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+client.py
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
+Screenshot of execution result:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename q2.2Result.png
+	scale 24
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Write Python 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+server.py
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Screenshot of execution result:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename q2.3.png
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Run 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+client.py
+\end_layout
+
+\end_inset
+
+ on a running 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+server.py
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Lines I ran:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+python3 server.py 51966 # 51,966=0xCAFE
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+python3 client.py localhost 51966
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Screenshot of the execution:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename q2.4Results.png
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Socket APIs
+\end_layout
+
+\begin_layout Enumerate
+bind - Binds a socket to a an address and port.
+ I used it after creating the socket before I started listening in 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+server.py
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+listen - Starts listening to the bound port.
+ The OS will do handshakes and complete init of connections after this line.
+ I used it after binding the port.
+ I used it after I used the bind in 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+server.py
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+connect - Sends a syn request to a server to the given hostname and port.
+ I used it to initiate a connection between my 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+client.py
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+accept - Getting a connection from the OS.
+ I used it to accept a connection from a specific user (in a 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+while
+\end_layout
+
+\end_inset
+
+ loop) in my 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+server.py
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+send - Sends data over an open connection.
+ I used it (actually it was 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+sendall
+\end_layout
+
+\end_inset
+
+) to send data to the other side of the connection.
+ Both in the 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+server.py
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+client.py
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+recv - Receives data over an open connection.
+ I used it in the 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+client.py
+\end_layout
+
+\end_inset
+
+ to read the response from the server.
+ In the 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+server.py
+\end_layout
+
+\end_inset
+
+ I didn't use it because I don't care that my users have to say.
+\end_layout
+
+\begin_layout Section
+Social Engineering
+\end_layout
+
+\begin_layout Subsection
 
 \end_layout
 
