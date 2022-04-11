@@ -109,7 +109,7 @@ Gur Telem 206631848
 \end_layout
 
 \begin_layout Section
-Question 1
+Attacks on networks and malicious software
 \end_layout
 
 \begin_layout Subsection
@@ -334,6 +334,126 @@ The RPC service was used port 445 which was open by default on every computer.
  it was able to write the execution code to the buffer and using the BOF
  to overwrite the ret address such that the it would point to the written
  code in the buffer.
+\end_layout
+
+\begin_layout Subsection
+What could be 
+\begin_inset Quotes eld
+\end_inset
+
+fixed
+\begin_inset Quotes erd
+\end_inset
+
+ in the worm s.t.
+ only one instance (on average) will be running on each infected PC?
+\end_layout
+
+\begin_layout Standard
+The worm could remove the 
+\begin_inset Quotes eld
+\end_inset
+
+feature
+\begin_inset Quotes erd
+\end_inset
+
+ that even if another instance is detected, one in 
+\begin_inset Formula $7$
+\end_inset
+
+ times, none of them will terminate.
+\end_layout
+
+\begin_layout Standard
+If we want to protect against falsified signals that another instance exists
+ the worm can hold a symmetric encryption key (will be identical in all
+ copies) or even simply a salt (for hashing).
+ The worm will send a random number and ask the other potential instance
+ to encrypt/hash that number, and if the result is correct, it will start
+ negotiating which one will terminate.
+ To prevent someone extracting the key/salt, we can use a custom packet
+ to make reverse engineering of the process nearly impossible (at least
+ impractical).
+\end_layout
+
+\begin_layout Subsection
+What is a syn attack, how is it done, what resource does it fill, and what
+ is the purpose of that attack?
+\end_layout
+
+\begin_layout Standard
+A syn attack is an attack where an attacker sends a lot of syn requests
+ which will require the victim to allocate resources to initiate the connection.
+\end_layout
+
+\begin_layout Standard
+The sender will usually change the src IP (IP spoofing) to prevent detection
+ as well as prevent identification of a syn request as malicious.
+\end_layout
+
+\begin_layout Standard
+After sending the initial syn request, the attacker would not send any ack
+ messages and thus force the victim to hold resources until it times out.
+\end_layout
+
+\begin_layout Standard
+The syn attack fill the connections queue and does prevents the victim from
+ creating connections with other endpoints (DoS attack).
+\end_layout
+
+\begin_layout Standard
+With a combination of a botnet we can DDoS a server with a syn attack and
+ make it inaccessible for almost all users (statistically inaccessible).
+\end_layout
+
+\begin_layout Section
+TCP/IP
+\end_layout
+
+\begin_layout Subsection
+What is the layers model described in the lecture
+\end_layout
+
+\begin_layout Standard
+There are 
+\begin_inset Formula $5$
+\end_inset
+
+ layer, each with its own role (some protocols don't use all the layers
+ and may use only the lower level layers):
+\end_layout
+
+\begin_layout Enumerate
+Application layer - The layer that contains the actual data the application
+ needs (protocols in this layer: FTP, HTTP, etc)
+\end_layout
+
+\begin_layout Enumerate
+Transport layer - Will split (and merge at the destination) packets.
+ When all the fragments are received, it will pass it back to the application
+ layer (protocols in this layer TCP, UDP, etc).
+\end_layout
+
+\begin_layout Enumerate
+Network layer - Responsible of routing packets to the correct destination.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Link layer - Responsible of sending packets between devices physically connected
+ with a cable (with no other devices between them).
+ 
+\end_layout
+
+\begin_layout Enumerate
+Physical layer - The actual physical signals being sent (optical signal,
+ electronics signals, radio, etc....).
+ Handles the signals and converts them into bits and bytes.
+\end_layout
+
+\begin_layout Subsection
+Write Python Code
 \end_layout
 
 \begin_layout Standard
