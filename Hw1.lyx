@@ -10,7 +10,7 @@
 \pagecolor[rgb]{0.15,0.15,0.15} %black
 \color[rgb]{1,1,1} %grey
 
-\newfontfamily\mylistingsfont{Droid Sans Mono for Powerline}
+\newfontfamily\mylistingsfont{Noto Mono for Powerline}
 \definecolor{lbcolor}{rgb}{0.3,0.3,0.3}  
 \definecolor{lkwcolor}{rgb}{0.7,0.7,0.9}  
 \end_preamble
@@ -748,7 +748,237 @@ Social Engineering
 \end_layout
 
 \begin_layout Subsection
+Give example from daily life
+\end_layout
 
+\begin_layout Standard
+In the supermarket the necessities are located at the end of the store.
+ Thus forcing customers to go through aisles that might attract them to
+ buy a few more things.
+\end_layout
+
+\begin_layout Subsection
+What is social engineering in InfoSec sense
+\end_layout
+
+\begin_layout Standard
+Social Engineering (from now and on SE) in the computer security world is
+ using the human factor as the weakest link in the chain to get compromising
+ information to a system.
+ A few examples are calling/email someone pretending to be the bank and
+ request login credentials.
+ Or maybe call a company sales department pretending you're a technician
+ that was sent to help them.
+\end_layout
+
+\begin_layout Subsection
+What did the government do to protect from the virus
+\end_layout
+
+\begin_layout Standard
+I'm assuming the questions aims for decommission the email systems but that
+ doesn't really protect from the virus same way suicide doesn't heal cancer.
+\end_layout
+
+\begin_layout Standard
+I assume in reality they had to educate their employees not to trust every
+ email they get and additionally, they probably blocked sending executables
+ by emails and added the signature of the virus to the EDR they used (I
+ think even then EDR were used).
+\end_layout
+
+\begin_layout Subsection
+How was Paris Hilton's phone info leaked
+\end_layout
+
+\begin_layout Standard
+In short:
+\end_layout
+
+\begin_layout Enumerate
+A teenager called AT&T's sales and pretended to be a technician that should
+ help with slowness and thus got credentials to log in as a company user.
+\end_layout
+
+\begin_layout Enumerate
+Then find Paris Hilton's phone number and seeing she has a sophisticated
+ device (which can potentially hold photos, videos and so on)
+\end_layout
+
+\begin_layout Enumerate
+Using public information (ad Paris published) guess the answer to the 
+\begin_inset Quotes eld
+\end_inset
+
+security
+\begin_inset Quotes erd
+\end_inset
+
+ question and reset the password
+\end_layout
+
+\begin_layout Enumerate
+Enter Paris Hilton's account and copy any information that seems 
+\begin_inset Quotes eld
+\end_inset
+
+interesting
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+What was Paris Hilton's mistake and how could she have prevented the attack
+\end_layout
+
+\begin_layout Standard
+Paris chose a question that was very easy to know the answer for a famous
+ personality.
+ 
+\end_layout
+
+\begin_layout Standard
+She could have chosen a less publicly known security question.
+\end_layout
+
+\begin_layout Standard
+If you aim for not publishing the ad about the missing dog, I disagree that
+ she should've avoided that.
+ Even without it, a name of something favorite of yours is hardly a 
+\begin_inset Quotes eld
+\end_inset
+
+security
+\begin_inset Quotes erd
+\end_inset
+
+ measure.
+\end_layout
+
+\begin_layout Subsection
+What is the additional power of SE in digital comm
+\end_layout
+
+\begin_layout Standard
+In digital comm, SE attacks are much easier to yield crops because humans
+ are more experienced detecting someone lying using visual clues (age, badge,
+ uniform, etc...).
+ When someone is on the phone it's much harder to know who they are (and
+ that's without even using voice changers).
+\end_layout
+
+\begin_layout Standard
+In the previous sections the hacker used the fact that the sales person
+ doesn't see a 17 yo teenager in front of him and can only hear his voice.
+\end_layout
+
+\begin_layout Subsection
+What are Phishing attacks
+\end_layout
+
+\begin_layout Standard
+Phishing attacks are attacks meant to retrieve information but trickery
+ of a person (type of SE).
+ Often appear as a disguised email from the bank or work trying to get a
+ victim to enter credentials into a malicious website (this is one example).
+ Sometimes a series of phishing attacks can be used to piece together a
+ load of information that can be used for whatever (blackmail, threaten,
+ get money, etc...).
+ Phishing attacks can be sent to a big mailing list using the
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+ 
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\xout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+\lang hebrew
+שיטת המצליח
+\lang english
+.
+\end_layout
+
+\begin_layout Standard
+Spear Phishing is a type of Phishing where a specific target is chosen (usually
+ some public figure or someone with power over something or someone else).
+\end_layout
+
+\begin_layout Subsection
+How someone with access to a bank account can transfer funds to themselves
+\end_layout
+
+\begin_layout Enumerate
+Log in as themselves
+\end_layout
+
+\begin_layout Enumerate
+Buy a bunch of penny stocks (ideally much in advance as to prevent suspicion)
+\end_layout
+
+\begin_layout Enumerate
+Log in as the victim
+\end_layout
+
+\begin_layout Enumerate
+Buy as much stocks as possible from that penny stock driving the price of
+ the stock up
+\end_layout
+
+\begin_layout Enumerate
+Log in as themselves and sell all the bought stocks
+\end_layout
+
+\begin_layout Enumerate
+Profit!
+\end_layout
+
+\begin_layout Standard
+Now the attacker simply seems like a person who sold the stocks when they
+ yielded profit without drawing suspicion.
+\end_layout
+
+\begin_layout Subsection
+What is the main reason SE attacks can be more effective where directly
+ digital attacks fail
+\end_layout
+
+\begin_layout Standard
+SE attacks relies can be more effective because it's much harder to immune
+ the human factor, it's not like we can send a security patch to employees'
+ brains (yet).
+ It's usually easy to immune all systems at once while a new employee can
+ be so much more susceptible to trickery simply due to the facts that they
+ need to get experience in the jobs and not everything is known.
+\end_layout
+
+\begin_layout Subsection
+What are the ways to prevent SE attacks
+\end_layout
+
+\begin_layout Standard
+Education and exposure.
+ It's most effective to show employees of a company what the attacks look
+ like and educate them on how to detect clues that indicate it's an SE attack.
 \end_layout
 
 \end_body
