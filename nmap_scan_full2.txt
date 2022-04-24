@@ -1,0 +1,50 @@
+Starting Nmap 7.92 ( https://nmap.org ) at 2022-04-23 23:17 IDT
+Stats: 0:00:06 elapsed; 0 hosts completed (1 up), 1 undergoing SYN Stealth Scan
+SYN Stealth Scan Timing: About 5.61% done; ETC: 23:19 (0:01:41 remaining)
+Stats: 0:00:14 elapsed; 0 hosts completed (1 up), 1 undergoing SYN Stealth Scan
+SYN Stealth Scan Timing: About 23.33% done; ETC: 23:18 (0:00:46 remaining)
+Stats: 0:00:44 elapsed; 0 hosts completed (1 up), 1 undergoing SYN Stealth Scan
+SYN Stealth Scan Timing: About 61.66% done; ETC: 23:18 (0:00:27 remaining)
+Warning: 45.33.32.156 giving up on port because retransmission cap hit (2).
+Stats: 0:01:13 elapsed; 0 hosts completed (1 up), 1 undergoing SYN Stealth Scan
+SYN Stealth Scan Timing: About 75.69% done; ETC: 23:18 (0:00:23 remaining)
+Nmap scan report for scanme.nmap.org (45.33.32.156)
+Host is up (0.20s latency).
+Other addresses for scanme.nmap.org (not scanned): 2600:3c01::f03c:91ff:fe18:bb2f
+Not shown: 65229 closed tcp ports (reset), 302 filtered tcp ports (no-response)
+PORT      STATE SERVICE    VERSION
+22/tcp    open  ssh        OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.13 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   1024 ac:00:a0:1a:82:ff:cc:55:99:dc:67:2b:34:97:6b:75 (DSA)
+|   2048 20:3d:2d:44:62:2a:b0:5a:9d:b5:b3:05:14:c2:a6:b2 (RSA)
+|   256 96:02:bb:5e:57:54:1c:4e:45:2f:56:4c:4a:24:b2:57 (ECDSA)
+|_  256 33:fa:91:0f:e0:e1:7b:1f:6d:05:a2:b0:f1:54:41:56 (ED25519)
+80/tcp    open  http       Apache httpd 2.4.7 ((Ubuntu))
+|_http-favicon: Nmap Project
+|_http-title: Go ahead and ScanMe!
+|_http-server-header: Apache/2.4.7 (Ubuntu)
+9929/tcp  open  nping-echo Nping echo
+31337/tcp open  tcpwrapped
+Device type: general purpose|storage-misc|broadband router|media device|WAP
+Running (JUST GUESSING): Linux 5.X|3.X|4.X|2.6.X (95%), HP embedded (93%), Infomir embedded (92%), Ubiquiti embedded (92%)
+OS CPE: cpe:/o:linux:linux_kernel:5.0 cpe:/h:hp:p2000_g3 cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:2.6.32 cpe:/o:linux:linux_kernel:2.6 cpe:/h:infomir:mag-250 cpe:/h:ubnt:airmax_nanostation
+Aggressive OS guesses: Linux 5.0 (95%), Linux 5.0 - 5.4 (95%), Linux 5.4 (94%), HP P2000 G3 NAS device (93%), OpenWrt 12.09-rc1 Attitude Adjustment (Linux 3.3 - 3.7) (93%), Linux 4.15 - 5.6 (93%), Linux 5.3 - 5.4 (93%), Linux 2.6.32 (92%), Linux 2.6.32 - 3.1 (92%), Infomir MAG-250 set-top box (92%)
+No exact OS matches for host (test conditions non-ideal).
+Network Distance: 10 hops
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE (using port 80/tcp)
+HOP RTT       ADDRESS
+1   1.41 ms   OpenWrt.lan (192.168.1.1)
+2   1.94 ms   176-230-251-57.orange.net.il (176.230.251.57)
+3   ...
+4   3.86 ms   82.102.132.78
+5   59.05 ms  80.179.166.134.static.012.net.il (80.179.166.134)
+6   59.07 ms  ffm-s6-rou-1041.DE.as286.net (134.222.145.225)
+7   67.84 ms  be3577.agr22.fra03.atlas.cogentco.com (154.25.5.53)
+8   200.04 ms ip4.gtt.net (208.116.213.134)
+9   201.74 ms if-2-4.csw6-fnc1.linode.com (173.230.159.87)
+10  201.79 ms scanme.nmap.org (45.33.32.156)
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 115.34 seconds
