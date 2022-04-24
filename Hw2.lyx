@@ -133,7 +133,7 @@ status open
 
 \begin_layout Plain Layout
 
-sudo nmap -T5 -p- -sS -A scanme.nmap.org | tee nmap_full_out.txt
+sudo nmap -T4 -p- -sS -A scanme.nmap.org | tee nmap_full_out.txt
 \end_layout
 
 \end_inset
@@ -178,35 +178,7 @@ status open
 
 \end_inset
 
-.
- Retrieved using: 
-\begin_inset listings
-inline false
-status open
-
-\begin_layout Plain Layout
-
-$ nslookup
-\end_layout
-
-\begin_layout Plain Layout
-
-> set q=any
-\end_layout
-
-\begin_layout Plain Layout
-
-> scanme.nmap.org
-\end_layout
-
-\begin_layout Plain Layout
-
-> ^D
-\end_layout
-
-\end_inset
-
-
+ (this address wasn't scanned because we weren't required to scan IPv6).
 \end_layout
 
 \begin_layout Enumerate
@@ -470,13 +442,12 @@ Part 2
 status open
 
 \begin_layout Plain Layout
-7
+(7)
 \end_layout
 
 \end_inset
 
-A closed port is a port that is either blocked by a firewall or a port that
- no application is listening on.
+A closed port is a port that no application is listening on.
  The response to the SYN request is RST/ACK.
 \end_layout
 
@@ -486,13 +457,13 @@ A closed port is a port that is either blocked by a firewall or a port that
 status open
 
 \begin_layout Plain Layout
-8
+(8)
 \end_layout
 
 \end_inset
 
 A filtered port is a port that packets sent to it are ignored and no response
- is sent at all.
+ is sent at all (blocked by firewall).
  No TCP packet is sent in response.
 \end_layout
 
@@ -502,7 +473,7 @@ A filtered port is a port that packets sent to it are ignored and no response
 status open
 
 \begin_layout Plain Layout
-9
+(9)
 \end_layout
 
 \end_inset
@@ -1467,6 +1438,10 @@ Section
 \end_layout
 
 \begin_layout Standard
+Are the clients at vulnerable?
+\end_layout
+
+\begin_layout Standard
 No.
  Because only the 
 \begin_inset Formula $GS_{i}$
@@ -1475,6 +1450,11 @@ No.
  servers are connecting with the game's client and we trust them not to
  be malicious (if the company was malicious then the client itself could
  simply be a malware and it doesn't matter if we have Log4j or not).
+\end_layout
+
+\begin_layout Standard
+Also, the client doesn't listen to any ports so no attacker can initiate
+ a session to any of the clients so they're not at risk.
 \end_layout
 
 \begin_layout Subsection
@@ -1504,7 +1484,7 @@ The step the attacker would do are something like this
 \end_layout
 
 \begin_layout Enumerate
-Craft packet that exploits Log4j one-day.
+Craft packet that exploits Log4j's one-day exploit.
 \end_layout
 
 \begin_layout Enumerate
@@ -1575,7 +1555,528 @@ Section
 \end_layout
 
 \begin_layout Standard
+I have a little more than 2 suggestions but I put the best ones first:
+\end_layout
 
+\begin_layout Enumerate
+In the FTP settings, permit access only read access and only to the folder
+ where the binaries of the game are located (and make sure it doesn't contain
+ the sources).
+\end_layout
+
+\begin_layout Enumerate
+Set the authentication keys on the 
+\begin_inset Formula $GS_{i}$
+\end_inset
+
+ servers accessibly from a different user (say root) than the one running
+ the game and Log4j and trust Linux's security to not allow privilege escalation.
+ Detailed changes would be (assuming the FTP authentication is done using
+ RSA private/public keys):
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Create users: 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+game_usr
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+update_usr
+\end_layout
+
+\end_inset
+
+ and add them to the same group 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+service_usrs
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Change ownership of the public and private keys of the RSA key to 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+update_usr
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Set 
+\begin_inset Quotes eld
+\end_inset
+
+other
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+group
+\begin_inset Quotes erd
+\end_inset
+
+ permissions for the keys to 
+\begin_inset Formula $0$
+\end_inset
+
+ (so no READ/WRITE/EXECUTE).
+\end_layout
+
+\begin_layout Enumerate
+Set ownership of the files required by the game server to be owned by the
+ group 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+service_usrs
+\end_layout
+
+\end_inset
+
+ and make sure to set RD/WR permissions to both owner and group.
+\end_layout
+
+\begin_layout Enumerate
+When wanting to update a 
+\begin_inset Formula $GS_{i}$
+\end_inset
+
+ we can simply connect from the user 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+update_usr
+\end_layout
+
+\end_inset
+
+ on 
+\begin_inset Formula $GS_{i}$
+\end_inset
+
+ to FS using FTP and update the files.
+ Make sure that the executables used for the update don't have any access
+ from the user 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+game_usr
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Now connect to the user 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+game_usr
+\end_layout
+
+\end_inset
+
+ and simply restart the game server (not the machine itself).
+ NOTE: It's important to run the game server from this user so we don't
+ expose.
+\end_layout
+
+\begin_layout Enumerate
+OPTIONAL: We can modify the kernel such that it will only allow the 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+game_usr
+\end_layout
+
+\end_inset
+
+ to communicate with the client and not send packets to internal hosts,
+ specifically FS.
+\end_layout
+
+\begin_layout Enumerate
+No extra devices needed on the network.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Initiate request from the FS:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Put a second firewall (FW2 - stateless is fine) between the FS and the rest
+ of the internal network (isolating it)
+\end_layout
+
+\begin_layout Enumerate
+Disable the FTP server on FS and run an FTP service on each of the 
+\begin_inset Formula $GS_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Deny any sessions initiated not by the FS in FW2 but allow FS to initiate
+ connections to the 
+\begin_inset Formula $GS_{i}$
+\end_inset
+
+'s FTP services.
+\end_layout
+
+\begin_layout Enumerate
+When it's time to update, upload from FS to each of 
+\begin_inset Formula $GS_{i}$
+\end_inset
+
+ using their FTP service.
+\end_layout
+
+\begin_layout Enumerate
+FW1 is unchanged
+\end_layout
+
+\begin_layout Enumerate
+Need one extra device - firewall (or even only software firewall because
+ speed is not of the essence for updating)
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Add a proxy server in the internal network for outbound traffic:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+The proxy can inspect each packet going back and forth and make sure no
+ data similar to the source files are sent outside the network.
+\end_layout
+
+\begin_layout Enumerate
+I would also suggest escaping and/or capping messages the clients send to
+ prevent even using the vulnerability but I guess this is considered 
+\begin_inset Quotes eld
+\end_inset
+
+patching
+\begin_inset Quotes erd
+\end_inset
+
+ the exploit and not allowed.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+In suggestion 
+\begin_inset Formula $3$
+\end_inset
+
+ the network looks like that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename Hw2Q2.6FW2.png
+	scale 12
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the first two suggestions the network would look the same.
+\end_layout
+
+\begin_layout Standard
+I'm not bothering with suggestion 
+\begin_inset Formula $4$
+\end_inset
+
+'s network map because it's simply a bad idea (explained in next section).
+\end_layout
+
+\begin_layout Subsection
+Section
+\end_layout
+
+\begin_layout Standard
+Compare between the options.
+\end_layout
+
+\begin_layout Standard
+First of all, note that in real life, the exploit should be fixed.
+ It's a rookie mistake to ignore vulnerabilities.
+\end_layout
+
+\begin_layout Standard
+Let's inspect each suggestion:
+\end_layout
+
+\begin_layout Enumerate
+Prevents anything except binaries to be downloaded from the FS (even inside
+ the internal network)
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+(good) This will prevent a compromised host (
+\begin_inset Formula $GS_{i}$
+\end_inset
+
+) to download source files from FS
+\end_layout
+
+\begin_layout Enumerate
+(good) It requires no extra hardware and doesn't affect the connection to
+ the clients.
+\end_layout
+
+\begin_layout Enumerate
+(good) It's the easiest to configure.
+ A matter of minutes and requires very little testing to confirm it's working.
+\end_layout
+
+\begin_layout Enumerate
+(bad?) This assumes FTP mitigates properly the access to folders and files.
+\end_layout
+
+\begin_layout Enumerate
+This is a good idea but not perfect.
+ Since the attacker can still access the binaries and transfer those and
+ possible (with effort) reverse engineer them, possibly finding more vulnerabili
+ties but also being able to get disassemble and modify the executable.
+\end_layout
+
+\begin_layout Enumerate
+(bad) It doesn't isolate the server containing the sensitive information
+ so an attacker can scan for other weak points in the internal network to
+ access the FS.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Prevent connection to FTP from the compromised account
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+(good) This option limits the surface of attack by isolating the a component
+ that is vulnerable as much as possible.
+\end_layout
+
+\begin_layout Enumerate
+(good) Prevent the attacker from even connecting to the FTP so they couldn't
+ download anything, let alone source code.
+\end_layout
+
+\begin_layout Enumerate
+(good) It also requires no extra hardware but a little more complex to configure.
+\end_layout
+
+\begin_layout Enumerate
+(good) It also doesn't affect the connection to the clients.
+\end_layout
+
+\begin_layout Enumerate
+This option is good and only but again not perfect as the attacker can still
+ access the binaries that are located on the compromised server.
+\end_layout
+
+\begin_layout Enumerate
+(bad) It doesn't isolate the server containing the sensitive information
+ so an attacker can scan for other weak points in the internal network to
+ access the FS.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Move the FTP server to the 
+\begin_inset Formula $GS_{i}$
+\end_inset
+
+ and initiate the update from FS
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+This completely removes the option for an attacker to initiate a connection
+ to FS
+\end_layout
+
+\begin_layout Enumerate
+It also removes the ability of a compromised server to choose what data
+ to retrieve even once an update has started.
+\end_layout
+
+\begin_layout Enumerate
+It also doesn't affect the connection to clients.
+\end_layout
+
+\begin_layout Enumerate
+Separating sensitive servers and servers exposed to the Internet is a good
+ idea.
+ Allowing a few points as possible between the FS and the 
+\begin_inset Formula $GS_{i}$
+\end_inset
+
+s and monitoring that traffic by any combination of stateless/stateful/proxy
+ is a good idea.
+\end_layout
+
+\begin_layout Enumerate
+This option requires a little more maintenance and possibly heavier on resources
+ as instead of a single FTP server we now have 
+\begin_inset Formula $n$
+\end_inset
+
+ servers (for each 
+\begin_inset Formula $GS_{i}$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Enumerate
+It's not as bad though because most of the time the FTP servers are idle
+ (except during update when the 
+\begin_inset Formula $GS_{i}$
+\end_inset
+
+ can't serve clients anyways so it has excess resources either way).
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Proxy to inspect data going out of the internal network and blocking data
+ not permitted
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+This is a very bad option for a few reasons
+\end_layout
+
+\begin_layout Enumerate
+A game server needs to be 
+\series bold
+fast
+\series default
+ and a proxy would add noticeable latency for all clients.
+\end_layout
+
+\begin_layout Enumerate
+An attacker can encrypt the data before sending so the proxy wouldn't be
+ able to inspect it.
+\end_layout
+
+\begin_layout Enumerate
+Even if the proxy block anything 
+\series bold
+except
+\series default
+ permitted packets, it's still possible to encode the source code into a
+ bunch of 
+\begin_inset Quotes eld
+\end_inset
+
+permitted
+\begin_inset Quotes erd
+\end_inset
+
+ packets (for example, go left is 
+\begin_inset Formula $0$
+\end_inset
+
+ and go right is 
+\begin_inset Formula $1$
+\end_inset
+
+ and continuously send packets representing the 
+\begin_inset Formula $0$
+\end_inset
+
+s and 
+\begin_inset Formula $1$
+\end_inset
+
+s that are the raw bit of the source code).
+\end_layout
+
+\begin_layout Enumerate
+It's also expensive because it requires a whole new host machine and a lot
+ of man hours to code the detection of things.
+ And it's a new type so a whole new maintenance procedure.
+\end_layout
+
+\begin_layout Enumerate
+I'm not even going to bother paining it.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+That's basically it.
+ I'd probably use a mix of the first 
+\begin_inset Formula $3$
+\end_inset
+
+ suggestions.
+ Will possibly transfer the game files (zipped) over SSH (that is probably
+ present anyways for server machines).
 \end_layout
 
 \end_body
