@@ -1,0 +1,1222 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass amsart
+\begin_preamble
+\usepackage{xcolor}
+\pagecolor[rgb]{0.15,0.15,0.15} %black
+\color[rgb]{1,1,1} %grey
+
+\newfontfamily\mylistingsfont{Noto Mono for Powerline}
+\definecolor{lbcolor}{rgb}{0.3,0.3,0.3}  
+\definecolor{lkwcolor}{rgb}{0.7,0.7,0.9}  
+\end_preamble
+\use_default_options true
+\begin_removed_modules
+theorems-ams
+\end_removed_modules
+\begin_modules
+eqs-within-sections
+figs-within-sections
+linguistics
+theorems-bytype
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "Arial"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 1cm
+\rightmargin 1cm
+\bottommargin 1.5cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip smallskip
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\listings_params "basicstyle={\mylistingsfont},language={C++},backgroundcolor={\color{lbcolor}},showstringspaces=false,xleftmargin=5mm,aboveskip=0pt,belowskip=0pt,keywordstyle={\bfseries\color{lkwcolor}},morekeywords={include, printf}"
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Network Security Hw3
+\end_layout
+
+\begin_layout Author
+Gur Telem 206631848
+\end_layout
+
+\begin_layout Section
+Question - DNS Spoofing and MITM
+\end_layout
+
+\begin_layout Section
+Question - AES, Modes of Operation
+\end_layout
+
+\begin_layout Subsection
+A student changed the AES and replaced MC with rotate clockwise.
+ How does the new and modified AES compare in resiliency to the original?
+\end_layout
+
+\begin_layout Standard
+The new AES is much less resilient than the original one (it's likely because
+ it was a student who made it).
+\end_layout
+
+\begin_layout Standard
+Since in the new AES the MC is missing, each byte in the cipher corresponds
+ to one specific byte in the plaintext and is completely independent of
+ other bytes in the plaintext.
+\end_layout
+
+\begin_layout Standard
+For each byte in the plaintext, the place of the corresponding byte in the
+ cipher is deterministic and independent of the key.
+\end_layout
+
+\begin_layout Standard
+This means that once we sent a plaintext with the i-th byte as x, and got
+ that the corresponding byte in the cipher is y, we know that whenever we
+ see a cipher with y in that spot, it corresponds to x in the place we tried
+ in the plaintext.
+\end_layout
+
+\begin_layout Standard
+An attack on the new AES can be done as follows:
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Pre-attack preparations
+\series default
+: Map each location of byte in a plaintext to the location of the corresponding
+ byte in the cipher.
+\end_layout
+
+\begin_layout Standard
+Let's call that map the locations map.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+The attack
+\series default
+: 
+\end_layout
+
+\begin_layout Enumerate
+Send 
+\begin_inset Formula $256$
+\end_inset
+
+ plaintext messages to be encrypted.
+ For each location in the plaintext, the byte there needs to be different
+ in all of the messages.
+ For simplicity the messages can be: 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+00 00 ...
+ 00
+\end_layout
+
+\end_inset
+
+, 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+01 01 ...
+ 01
+\end_layout
+
+\end_inset
+
+, ...
+\end_layout
+
+\begin_layout Enumerate
+For message 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+XY XY ...
+ XY
+\end_layout
+
+\end_inset
+
+, map 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+XY
+\end_layout
+
+\end_inset
+
+ to the resulting cipher from the message.
+ Let's call that map key map.
+\end_layout
+
+\begin_layout Standard
+Now that we have the two maps (key map per key and locations map for 
+\series bold
+all
+\series default
+ keys).
+\end_layout
+
+\begin_layout Standard
+When enchanting a wild cipher (see illustration below), we can decrypt it
+ like so:
+\end_layout
+
+\begin_layout Enumerate
+For each byte 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+ZK
+\end_layout
+
+\end_inset
+
+ in the cipher, check in the locations map its original location.
+\end_layout
+
+\begin_layout Enumerate
+For the same 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+ZK
+\end_layout
+
+\end_inset
+
+ byte, also check which byte 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+XY
+\end_layout
+
+\end_inset
+
+ is mapped to it in 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+ZK
+\end_layout
+
+\end_inset
+
+'s location in the cipher under the key map.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename wildCipher.jpeg
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Example:
+\end_layout
+
+\begin_layout Example
+When sending the plaintext messages, the key map is:
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula $00$
+\end_inset
+
+:
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ff
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+f1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+f4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+65
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+00
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+43
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+cc
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8a
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+95
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+42
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+, 
+\begin_inset Formula $01$
+\end_inset
+
+:
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ff
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+f1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+00
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+43
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+cc
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+95
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8a
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+42
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+f4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+65
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+, ...
+\end_layout
+
+\begin_layout Example
+And now we got an encrypted message:
+\end_layout
+
+\begin_layout Example
+cipher: 
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ff
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+f1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+00
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+43
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+cc
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+00
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+43
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+cc
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+a6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+f4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1d
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+65
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Now we go over the bytes in the cipher: 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+01 02 ff f1 ...
+\end_layout
+
+\end_inset
+
+ and we can reverse map the original location using the locations map.
+ For the plaintext bytes we use the key map: the 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+01
+\end_layout
+
+\end_inset
+
+,
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+02
+\end_layout
+
+\end_inset
+
+,
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+ff
+\end_layout
+
+\end_inset
+
+,
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+f1
+\end_layout
+
+\end_inset
+
+ in the cipher all corresponds to the 
+\begin_inset Formula $00$
+\end_inset
+
+ (because I was lazy to add more bytes to the mapping), and in the plaintext
+ those are 
+\begin_inset Formula $00$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+As we said, the number of pairs 
+\begin_inset Formula $\left(P,C\right)$
+\end_inset
+
+ required is 
+\begin_inset Formula $256$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The space complexity is 
+\begin_inset Formula $2^{8}\cdot16$
+\end_inset
+
+ bytes (the number of ciphers times the size of each)
+\end_layout
+
+\begin_layout Standard
+The time complexity is 
+\begin_inset Formula $2^{8}$
+\end_inset
+
+ as we need that many encryption actions to generate the key map.
+\end_layout
+
+\begin_layout Subsection
+Replace BS with Rotate Clockwise
+\end_layout
+
+\begin_layout Standard
+The new AES (the 2nd) is less secure than the original AES since we replaced
+ the S-Box operation (BS - which is the only non linear) with a linear function
+ (rotate clockwise).
+\end_layout
+
+\begin_layout Standard
+The rotate clockwise is linear because for two blocks, rotating moves each
+ byte to a new location deterministic and independent of the value and thus,
+ xor(ing) after rotating will xor the same pairs of bytes.
+\end_layout
+
+\begin_layout Standard
+Also note that the location of the xor(ed) results is the same whether we
+ xor first or after (since xor works for each location independently).
+\end_layout
+
+\begin_layout Standard
+So say in location 
+\begin_inset Formula $i$
+\end_inset
+
+ in the plaintext there were 
+\begin_inset Formula $x,y$
+\end_inset
+
+.
+ We can either xor them first and then move to the new location, or move
+ each to the new location and only when xor, the xor and movement is independent
+ of each other.
+ 
+\end_layout
+
+\begin_layout Standard
+Thus the rotate clockwise is linear.
+\end_layout
+
+\begin_layout Standard
+Since with the 2nd new AES is made of only linear operations, it can barely
+ be called a cipher (as mentioned in the tutorials).
+\end_layout
+
+\begin_layout Standard
+In conclusion, the new AES (the 2nd) is significantly less secure than the
+ original AES.
+\end_layout
+
+\begin_layout Subsection
+Before each KM, we'll do a Rotate Clockwise on the sub key.
+ How does the lecturer's new AES compare to the original?
+\end_layout
+
+\begin_layout Standard
+The lecturer's new AES is as secure (at least) as the original.
+\end_layout
+
+\begin_layout Standard
+If we follow the effect of changing a single byte, it still affects 
+\series bold
+ALL
+\series default
+ of the bytes in the cipher as demonstrated in the tutorials.
+\end_layout
+
+\begin_layout Standard
+Assuming the scheduling of the key is good, each of the sub keys are pseudo
+ random.
+\end_layout
+
+\begin_layout Standard
+Combined with rotating clockwise (which is an injective function, meaning
+ we don't lose uniformity/de-generalize the key) we stay with a key which
+ is still pseudo random meaning that the new cipher is at least as strong
+ as the original AES.
+\end_layout
+
+\begin_layout Subsection
+Zoom's security breach.
+\end_layout
+
+\begin_layout Subsubsection
+What is the attribute of the encryption that lead to the researchers to
+ decide the encryption is no good.
+\end_layout
+
+\begin_layout Standard
+As demonstrated in the tutorial, using ECB, encrypting each block is independent
+ so identical blocks will always be encrypted to the same cipher so images
+ will still be coherent.
+\end_layout
+
+\begin_layout Subsubsection
+Suggest a changed that Zoom can implement that would solve the security
+ issue.
+\end_layout
+
+\begin_layout Standard
+Changing the AES encryption to CBC mode (for example) will solve the issue.
+\end_layout
+
+\begin_layout Standard
+CBC makes the same blocks to be encrypted to different ciphers depending
+ on order.
+\end_layout
+
+\begin_layout Subsection
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+ECB
+\end_layout
+
+\begin_layout Standard
+Let blocks 
+\begin_inset Formula $B,C$
+\end_inset
+
+ be different blocks of plaintext data.
+ Let's set 
+\begin_inset Formula $M_{1}=BB$
+\end_inset
+
+, 
+\begin_inset Formula $M_{2}=BC$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In ECB mode, since the encryption of each block is independent, encrypting
+ the message 
+\begin_inset Formula $BB$
+\end_inset
+
+ must result in two identical blocks of cipher, while 
+\begin_inset Formula $BC$
+\end_inset
+
+ must result in two differing blocks of cipher (otherwise the encryption
+ wouldn't be one-to-one).
+\end_layout
+
+\begin_layout Standard
+So, if the cipher is made of two identical halves, we know it's 
+\begin_inset Formula $M_{1}$
+\end_inset
+
+ that was encrypted, if the cipher's blocks differ, them it's 
+\begin_inset Formula $M_{2}$
+\end_inset
+
+ that was encrypted.
+\end_layout
+
+\begin_layout Subsubsection
+Interleaved-CBC
+\end_layout
+
+\begin_layout Standard
+We want to cause the input of the AES to be identical for one message and
+ different for the other (same as previous section).
+ But here we have IV(s) being used.
+\end_layout
+
+\begin_layout Standard
+But since our message is only made of two blocks, we can choose 
+\begin_inset Formula $M_{1}=\left(B\oplus IV_{0}\right)\left(B\oplus IV_{1}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $M_{2}=\left(B\oplus IV_{0}\right)\left(C\oplus IV_{1}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Xoring the blocks with 
+\begin_inset Formula $IV_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $IV_{1}$
+\end_inset
+
+ respectively will cause the blocks 
+\begin_inset Formula $B,B$
+\end_inset
+
+ and 
+\begin_inset Formula $B,C$
+\end_inset
+
+ to be the direct input to the AES (E in the diagram).
+ Which means that again, if the cipher is made of two identical blocks,
+ then 
+\begin_inset Formula $M_{1}$
+\end_inset
+
+ was encrypted, otherwise, it's 
+\begin_inset Formula $M_{2}$
+\end_inset
+
+ that was encrypted.
+\end_layout
+
+\begin_layout Subsection
+One message is sent and the IV for the next message is published already.
+ What to encrypt to figure out what the first message was?
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $M_{1}$
+\end_inset
+
+ was encrypted with 
+\begin_inset Formula $IV_{1}$
+\end_inset
+
+.
+ Meaning that 
+\begin_inset Formula $M_{1}\oplus IV_{1}$
+\end_inset
+
+ is the data that was encrypted.
+\end_layout
+
+\begin_layout Standard
+So if 
+\begin_inset Formula $M_{2}=\text{"yes"}\oplus IV_{1}\oplus IV_{2}$
+\end_inset
+
+ is the message, the actual data that goes into the AES is 
+\begin_inset Formula $\text{"yes"}\oplus IV_{1}\oplus IV_{2}\oplus IV_{2}=\text{"yes"}\oplus IV_{1}$
+\end_inset
+
+.
+ So if the resulting cipher is the same as the cipher that was first sent,
+ it means that the input for the AES was the same 
+\begin_inset Formula $\Longrightarrow$
+\end_inset
+
+ so 
+\begin_inset Formula $M_{1}=\text{"yes"}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+If the result cipher is different than the first cipher, then 
+\begin_inset Formula $M_{1}=\text{"no"}$
+\end_inset
+
+.
+\end_layout
+
+\end_body
+\end_document
