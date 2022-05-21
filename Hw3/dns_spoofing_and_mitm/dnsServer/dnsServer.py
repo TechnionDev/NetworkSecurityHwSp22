@@ -15,7 +15,8 @@ def main():
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.bind((dns_ip, dns_port))
-    except:
+    except Exception as e:
+        print(e)
         print("Couldn't bind to port 53.")
         sys.stdout.flush()
         exit()

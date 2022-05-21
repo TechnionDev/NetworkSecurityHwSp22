@@ -17,7 +17,8 @@ def send_and_receive_HTTP1_0(dest_ip, dest_port, request):
         resp = s.recv(50000)
         s.close()
         return resp
-    except:
+    except Exception as e:
+        print(e)
         print("Failed to open TCP socket")
         sys.stdout.flush()
         exit()
@@ -41,7 +42,7 @@ def http_connection(resolver_ip):
     result = resolver.query(WEBSITE_NAME)
 
     for res in result:
-        print(res.address)
+        print(f'Resolved address: {res.address}')
 
     # Connect as client to a selected server
     # on a specified port
@@ -55,7 +56,7 @@ def http_connection(resolver_ip):
     print("<-----=============================----->")
 
     # Send form on login page
-    content = "username='Alex'&password='C0mput3rS3curity'"
+    content = "username='Alex2'&password='C0mput3rS3curity'"
     request = "POST /post_login HTTP/1.0\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: " + \
               str(len(content)) + "\r\n\r\n" + content + "\r\n\r\n"
     resp = send_and_receive_HTTP1_0(dest_ip, dest_port, request)
