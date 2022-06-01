@@ -121,6 +121,22 @@ Gur Telem 206631848
 Question - DNS Spoofing and MITM
 \end_layout
 
+\begin_layout Standard
+See attached python file (
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+attacker.py
+\end_layout
+
+\end_inset
+
+)
+\end_layout
+
 \begin_layout Section
 Question - AES, Modes of Operation
 \end_layout
