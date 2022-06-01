@@ -1,0 +1,1183 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass amsart
+\begin_preamble
+\usepackage{xcolor}
+\pagecolor[rgb]{0.15,0.15,0.15} %black
+\color[rgb]{1,1,1} %grey
+
+\newfontfamily\mylistingsfont{Noto Mono for Powerline}
+\definecolor{lbcolor}{rgb}{0.3,0.3,0.3}  
+\definecolor{lkwcolor}{rgb}{0.7,0.7,0.9}  
+\end_preamble
+\use_default_options true
+\begin_removed_modules
+theorems-ams
+\end_removed_modules
+\begin_modules
+eqs-within-sections
+figs-within-sections
+linguistics
+theorems-bytype
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "Arial"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 1cm
+\rightmargin 1cm
+\bottommargin 1.5cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip smallskip
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\listings_params "basicstyle={\mylistingsfont},language={C++},backgroundcolor={\color{lbcolor}},showstringspaces=false,xleftmargin=5mm,aboveskip=0pt,belowskip=0pt,keywordstyle={\bfseries\color{lkwcolor}},morekeywords={include, printf}"
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Network Security Hw4
+\end_layout
+
+\begin_layout Author
+Gur Telem 206631848
+\end_layout
+
+\begin_layout Section
+RSA/MAC/Signatures
+\end_layout
+
+\begin_layout Subsection
+RSA
+\end_layout
+
+\begin_layout Subsubsection
+Math Incorrect.
+ (Secured - no one will ever know the message except 
+\begin_inset Formula $A$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $d$
+\end_inset
+
+ is part of the private key of 
+\begin_inset Formula $A$
+\end_inset
+
+ and not known to 
+\begin_inset Formula $B$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Unless securely passed to 
+\begin_inset Formula $B$
+\end_inset
+
+, it would simply be impossible for 
+\begin_inset Formula $B$
+\end_inset
+
+ to decrypt the message, if it was passed to 
+\begin_inset Formula $B$
+\end_inset
+
+ in an insecure way (for example, without being encrypted using a pubkey
+ of 
+\begin_inset Formula $B$
+\end_inset
+
+), it would be possible for 
+\begin_inset Formula $B$
+\end_inset
+
+ to decrypt but other people would be able to decrypt too as they would
+ have seen 
+\begin_inset Formula $d$
+\end_inset
+
+ passed plainly to 
+\begin_inset Formula $B$
+\end_inset
+
+ (from 
+\begin_inset Formula $A$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Subsubsection
+Math&Sec Correct
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\left(e,n\right)$
+\end_inset
+
+ is the pubkey that is published to all so 
+\begin_inset Formula $B$
+\end_inset
+
+ would be able to encrypt as described.
+ And 
+\begin_inset Formula $A$
+\end_inset
+
+ is the only one that has 
+\begin_inset Formula $d$
+\end_inset
+
+.
+ Meaning that he and only he will be able to do 
+\begin_inset Formula $C^{d}=M^{ed}=M^{1}=M$
+\end_inset
+
+ and get the plaintext message.
+\end_layout
+
+\begin_layout Standard
+We proved in class that it's mathematically correct and secure.
+\end_layout
+
+\begin_layout Subsubsection
+Math Incorrect (security irrelevant)
+\end_layout
+
+\begin_layout Standard
+Mathematically it's the same as previous section, except using 
+\begin_inset Formula $H\left(M\right)$
+\end_inset
+
+ instead of 
+\begin_inset Formula $M$
+\end_inset
+
+ and switching between 
+\begin_inset Formula $e$
+\end_inset
+
+ and 
+\begin_inset Formula $d$
+\end_inset
+
+ roles (ok since 
+\begin_inset Formula $ed=de$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+The only problem is that using 
+\begin_inset Formula $e$
+\end_inset
+
+ to decrypt the signature will result with the hash of 
+\begin_inset Formula $M$
+\end_inset
+
+, not 
+\begin_inset Formula $M$
+\end_inset
+
+ itself.
+\end_layout
+
+\begin_layout Standard
+So the described will always fail.
+\end_layout
+
+\begin_layout Subsubsection
+Math Incorrect.
+ Secure.
+\end_layout
+
+\begin_layout Standard
+By definition, a hash function is not reversible (the result of the hash
+ is usually much much smaller than the original message, there could be
+ countless messages that hash to the same value.
+ Although it would be hard, usually, to find a collision).
+\end_layout
+
+\begin_layout Standard
+Thus it's incorrect mathematically.
+ It's secure because no one, will be able to reverse the hash back into
+ a message, with or without the encryption keys.
+\end_layout
+
+\begin_layout Subsubsection
+Math correct and secure.
+\end_layout
+
+\begin_layout Standard
+This is how a signature is calculate.
+ 
+\begin_inset Formula $\left(H\left(M\right)^{d}\right)^{e}=H\left(M\right)^{ed}=H\left(M\right)$
+\end_inset
+
+.
+ Since it's usually a difficult task to find hash collision, no one will
+ be able to send messages and calculate signatures for them (as 
+\begin_inset Formula $d$
+\end_inset
+
+ is unknown to all but 
+\begin_inset Formula $A$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Subsubsection
+Math correct but insecure
+\end_layout
+
+\begin_layout Standard
+It mathematically works the same as section e.
+ So it works.
+\end_layout
+
+\begin_layout Standard
+Since 
+\begin_inset Formula $e$
+\end_inset
+
+ is known to all, anyone would be able to replicate what 
+\begin_inset Formula $B$
+\end_inset
+
+ is doing (
+\begin_inset Formula $B$
+\end_inset
+
+ doesn't have any information that the rest don't as 
+\begin_inset Formula $B$
+\end_inset
+
+ didn't generate a priv/pub keys).
+\end_layout
+
+\begin_layout Subsubsection
+Math incorrect but secure
+\end_layout
+
+\begin_layout Standard
+As we said, 
+\begin_inset Formula $B$
+\end_inset
+
+ does't even have 
+\begin_inset Formula $d$
+\end_inset
+
+ so they can't calculate the signature they want.
+\end_layout
+
+\begin_layout Standard
+The message itself won't be possible to decrypt because how RSA works and
+ what we explained in section b.
+\end_layout
+
+\begin_layout Standard
+So it can't be done as described.
+\end_layout
+
+\begin_layout Subsection
+Which of Hash/MAC/DigSig is the best fit
+\end_layout
+
+\begin_layout Enumerate
+Answers
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Digital signature is best suited here.
+ Assuming everyone has Bob's pubkey which the corresponding privkey was
+ used to sign the files, then Bob would upload the file as well as 
+\begin_inset Formula $H\left(f_{content}\right)^{d}=sig$
+\end_inset
+
+ and match it with the file.
+ No one would be able to create a signature that would be verified with
+ Bob's pubkey that is known to all (described in previous sections)
+\end_layout
+
+\begin_layout Enumerate
+Hashes is the tool for the job.
+ A client would first hash the file and send only the hash (smaller than
+ the entire file).
+ The server would search if the hash exists, if it does, it would tell the
+ client that they don't need to re-upload.
+ If the hash doesn't exist, the client would upload the file and the server
+ would save both the hash and the file in storage.
+\end_layout
+
+\begin_layout Enumerate
+Again, digital signature is our tool here.
+ Using long term private/public keys for each store, the store will be required
+ to digitally sign the confirmation that they bought an item.
+ Since no one can replicate signing (the 
+\series bold
+secret 
+\series default
+priv key is used on the data), then the store wouldn't be able to deny (everyone
+ saw that the store published its pubkey so it can't be anyone else that
+ got the matching private key).
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+RSA signatures
+\end_layout
+
+\begin_layout Enumerate
+Answers
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $3$
+\end_inset
+
+ disadvantages of using RSA signature without hashing
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Signatures would be significantly longer (linear to the size of the data)
+\end_layout
+
+\begin_layout Enumerate
+A series of signed messages can be signed as a single message by an attacker
+ without knowing the private key (see slide 476 from the lectures' slides)
+\end_layout
+
+\begin_layout Enumerate
+Existential forgery - an attacker can randomly generate a signature and
+ then do 
+\begin_inset Formula $sig^{e}\mod n=m$
+\end_inset
+
+.
+ Meaning that and attacker can generate random messages that seem like they've
+ been signed by someone else.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Let's look at a bank's server which receives signed messages from clients
+ containing only amount in ILS and returns single use token used to withdraw
+ that amount (valid say for 1 minute).
+ Using regular RSA signature we can randomize a signed message.
+ The message will be interpreted as a number and the bank will return us
+ with a one time token to withdraw that amount.
+ Using hashes, we can't use existential forgery to generate a random signed
+ message so we wouldn't be able to send a signed message that the bank will
+ approve.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+The chosen bit Amit chose is 
+\begin_inset Formula $0$
+\end_inset
+
+.
+ Nir sends 
+\begin_inset Formula $010101\dots01$
+\end_inset
+
+ and 
+\begin_inset Formula $n=26$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Meaning that Nir chose 
+\begin_inset Formula $1$
+\end_inset
+
+ as the bit.
+\end_layout
+
+\begin_layout Standard
+Amit chose 
+\begin_inset Formula $0$
+\end_inset
+
+ so to win he needs Nir's bit to be 
+\begin_inset Formula $0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+So he needs to modify the message such that 
+\begin_inset Formula $n$
+\end_inset
+
+ would be odd.
+\end_layout
+
+\begin_layout Standard
+Using a few tries, he needs to generate a random signed message such that
+ 
+\begin_inset Formula $n$
+\end_inset
+
+ is odd.
+ The chance for that is 
+\begin_inset Formula $0.5$
+\end_inset
+
+ (pretty high).
+ 
+\end_layout
+
+\begin_layout Standard
+So generating random 
+\begin_inset Formula $sig$
+\end_inset
+
+ message and checking if 
+\begin_inset Formula $sig^{e}\mod2=1$
+\end_inset
+
+.
+ When it does, modify Nir's message to 
+\begin_inset Formula $sig\left(M\right)||sig$
+\end_inset
+
+ .
+\end_layout
+
+\begin_layout Standard
+Thus 
+\begin_inset Formula $0$
+\end_inset
+
+ will be chosen bit for Nir and the XOR will be 
+\begin_inset Formula $0$
+\end_inset
+
+ (Amit wins).
+\end_layout
+
+\begin_layout Standard
+Profit!
+\end_layout
+
+\begin_layout Subsection
+Amit chose 
+\begin_inset Formula $1$
+\end_inset
+
+.
+ Nir chose 
+\begin_inset Formula $M=000\dots0011\dots111$
+\end_inset
+
+ and 
+\begin_inset Formula $n=5$
+\end_inset
+
+.
+ Meaning that Nir's bit is 
+\begin_inset Formula $0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Amit can win.
+ Again by using generating random signed messages to send as 
+\begin_inset Formula $sig\left(n\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+When Amit manages to generate a signed 
+\begin_inset Formula $sig$
+\end_inset
+
+ s.t.
+ 
+\begin_inset Formula $sig^{e}>64$
+\end_inset
+
+, he will send 
+\begin_inset Formula $sig\left(M\right)||sig$
+\end_inset
+
+ (with 
+\begin_inset Formula $sig$
+\end_inset
+
+ the random signed msg he found).
+\end_layout
+
+\begin_layout Standard
+Thus 
+\begin_inset Formula $1$
+\end_inset
+
+ will be chosen bit for Nir and the XOR will be 
+\begin_inset Formula $0$
+\end_inset
+
+ (Amit wins).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+PKI
+\end_layout
+
+\begin_layout Subsection
+AES Symmetric key sent with the product on DoK.
+ Two problems.
+\end_layout
+
+\begin_layout Enumerate
+Since all of the branches get the product, they all get the symmetric key,
+ so any branch would be able to MITM every other branch and encrypt a new
+ FW file for the product (or SW, I don't really know what kind of company
+ it is).
+ A symmetric key means that both sender and receiver are able to both encrypt
+ and decrypt using the same key.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Since the key is symmetric, a signature on the file isn't reliable as everyone
+ has the key and everyone can use it to sign FW/SW that they send.
+\end_layout
+
+\begin_layout Subsection
+Does sending pubkey with the update help?
+\end_layout
+
+\begin_layout Standard
+This still doesn't help.
+ Since the branches don't know the pubkeys of other branches in advance,
+ a malicious branch can send their own malicious FW+pubkey (they will sign
+ the malicious FW with their own private key).
+\end_layout
+
+\begin_layout Standard
+The receiving branch will have no way to know that the sender is a malicious
+ branch and not legit since they trust the pubkey they receive with the
+ FW for verification.
+ 
+\end_layout
+
+\begin_layout Subsection
+What's the sent message and how it's verified?
+\end_layout
+
+\begin_layout Standard
+Assume the certificate of 
+\begin_inset Formula $S$
+\end_inset
+
+ is 
+\begin_inset Formula $S_{cert}=S_{name}||S_{pub}||CA_{name}||\left(SHA256\left(S_{name}||S_{pub}||CA_{name}\right)\right)^{CA_{priv}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The sent message is 
+\begin_inset Formula $M||\left(SHA256\left(M\right)\right)^{S_{priv}}||S_{cert}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Verify that 
+\begin_inset Formula $S_{cert}$
+\end_inset
+
+ matches the sender they expect.
+\end_layout
+
+\begin_layout Enumerate
+Decrypt 
+\begin_inset Formula $S_{cert}$
+\end_inset
+
+'s last component (using the trusted pubkey of the CA that the branch saved
+ before) and check that it matches the hash of the first two components.
+\end_layout
+
+\begin_layout Enumerate
+Decrypt 
+\begin_inset Formula $\left(\left(SHA256\left(M\right)\right)^{S_{priv}}\right)^{S_{pub}}$
+\end_inset
+
+ using the pubkey in 
+\begin_inset Formula $S_{cert}$
+\end_inset
+
+ and get 
+\begin_inset Formula $SHA256\left(M\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $SHA256\left(M\right)$
+\end_inset
+
+ and compare the result to what they got in step 
+\begin_inset Formula $3$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+If any of the steps fail.
+ Don't trust the message.
+\end_layout
+
+\begin_layout Standard
+Note(s): depending on implementation, there might be another check against
+ the revoke list to make sure that the 
+\begin_inset Formula $S_{cert}$
+\end_inset
+
+ isn't revoked (due to leaked private key of the owner or something like
+ that).
+\end_layout
+
+\begin_layout Standard
+It's also possible for the receiver to verify the certificate using an 
+\begin_inset Formula $OCSP$
+\end_inset
+
+ but I assume that's not part of the question as it was hinted that that
+ isn't related to the sections prior to section 
+\begin_inset Formula $6$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Does the CA need to be online while verifying the digital signature
+\end_layout
+
+\begin_layout Standard
+No/yes depending on implementation.
+\end_layout
+
+\begin_layout Standard
+No because:
+\end_layout
+
+\begin_layout Standard
+The CA's public key is saved by each trusting entity.
+ Meaning that the pubkey can be used offline to verify the signature on
+ the certificates other branches sent to identify.
+ The CA signed each branch's cert in advance and after verify that signature
+ of the CA, the branch can trust the pubkey which is also located in that
+ cert.
+\end_layout
+
+\begin_layout Standard
+No need for the CA to do anything.
+\end_layout
+
+\begin_layout Standard
+Again note: Since we saved the CA's pubkey and trusted it, unless we want
+ to update the revoke list, we don't need to ever communicate with the CA
+ at all.
+\end_layout
+
+\begin_layout Standard
+Yes because:
+\end_layout
+
+\begin_layout Standard
+If we use the implementation with OCSP, the CA needs to be online to verify
+ that the 
+\begin_inset Formula $S_{cert}$
+\end_inset
+
+ is still a valid certificate and that the private key didn't leak.
+\end_layout
+
+\begin_layout Subsection
+Advantages of using a secondary CA 
+\end_layout
+
+\begin_layout Enumerate
+A leaked private key of a secondary CA is much less bad than one of a root
+ CA because it can be revoked using the revoke list rather than physically
+ and manually trusting a new root CA (which is self signed so we wouldn't
+ trust the internet to get it).
+\end_layout
+
+\begin_layout Enumerate
+A leaked private key for 
+\begin_inset Formula $CA_{update}$
+\end_inset
+
+ (and thus adding the 
+\begin_inset Formula $CA_{update}$
+\end_inset
+
+ to the revoke list) would cause only that certificate to not be trusted
+ and the rest of the 
+\begin_inset Formula $CA_{*}$
+\end_inset
+
+ will not cause messages to be refused as not trusted.
+ Other network needs would stay unaffected.
+\end_layout
+
+\begin_layout Subsection
+How does it protect user's privacy
+\end_layout
+
+\begin_layout Standard
+Without OCSP Stapling, if users want to validate the authenticity of a certifica
+te, they need to initiate a connection to the CA itself (a third party),
+ letting them know that they want to access the owner's certificate (I wonder
+ what website users don't want any third party to know they even visit.....).
+\end_layout
+
+\begin_layout Standard
+With OCSP Stapling, the certificate is freshly signed by the CA thus, eliminatin
+g the chance that the certificate was revoked by the CA.
+ The owner is frequently asking the CA for freshly signed temporary certificates.
+ If an owner is no longer trusted, the CA will simply refuse to provide
+ fresh temporary certs.
+\end_layout
+
+\begin_layout Standard
+The owner of the cert is the one responsible for getting freshly signed
+ certs thus making the OCSP anonymous for the clients.
+\end_layout
+
+\begin_layout Subsection
+How does it improve performance?
+\end_layout
+
+\begin_layout Standard
+I'm assuming 
+\begin_inset Quotes eld
+\end_inset
+
+
+\lang hebrew
+השרת
+\lang english
+
+\begin_inset Quotes erd
+\end_inset
+
+ refers to the CA's server.
+\end_layout
+
+\begin_layout Standard
+Since the website keeps a his certificate (very very) fresh, using the temporary
+ certificates described above, the website can serve the same temporary
+ certificate to all of its clients, thus eliminating the need for each client
+ to verify the status of the certificate itself.
+ Instead of 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+num_of_clients
+\end_layout
+
+\end_inset
+
+ requests to the CA's server per the time frame of the temporary validity,
+ only one is being made (per the time frame of the temporary validity).
+ That's a stacks up to a big load reduction.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Auth Control
+\end_layout
+
+\begin_layout Subsection
+Protected against context hijacking?
+\end_layout
+
+\begin_layout Standard
+Yes.
+\end_layout
+
+\begin_layout Standard
+The protocol is protected against context hijacking because by the time
+ the server and the client established a connection (context), they already
+ exchanged pub/priv keys and the communication is encrypted so an attacker
+ wouldn't be able to inspect, let alone send messages as either the client
+ or the server.
+\end_layout
+
+\begin_layout Subsection
+Server impersonation
+\end_layout
+
+\begin_layout Standard
+No.
+\end_layout
+
+\begin_layout Standard
+An attacker can pretend to be the server, replying with their own 
+\begin_inset Formula $g^{y}$
+\end_inset
+
+ and a random string as the challenge.
+\end_layout
+
+\begin_layout Standard
+The attacker would accept any response from the client as a valid challenge
+ solution and now the client communicates with an attacker, thinking it's
+ the server.
+\end_layout
+
+\begin_layout Subsection
+MITM
+\end_layout
+
+\begin_layout Standard
+No.
+\end_layout
+
+\begin_layout Standard
+If the attacker is in a position to intercept communication between the
+ client and the server.
+ The attacker can get requests from the client, replace the pubkey with
+ their own, and the same for the response from the server.
+ Except switching the keys, the attacker will leave the authentication protocol
+ the same.
+\end_layout
+
+\begin_layout Standard
+After that, the attacker can inspect all the traffic going between the server
+ and the client without encryption by simply decrypting and re-encrypting
+ the messages using its own keys (the attacker has symmetric keys 
+\begin_inset Formula $g^{xa},g^{ya}$
+\end_inset
+
+ with the client and the server respectively).
+\end_layout
+
+\begin_layout Subsection
+Offline Dictionary (including hybrid)
+\end_layout
+
+\begin_layout Standard
+No (kinda).
+\end_layout
+
+\begin_layout Standard
+The attacker can take the encrypted challenge that the server sends unencrypted
+ by the temporary 
+\begin_inset Formula $g^{x}$
+\end_inset
+
+, and the response challenge.
+\end_layout
+
+\begin_layout Standard
+Now with a dictionary of hashed passwords, the attacker will test (offline)
+ test all the hashes to encrypt the challenge until the attacker finds a
+ hash with the encrypted challenge looking like what the attacker sent.
+ Then the attacker knows the password of the client, and along with the
+ 
+\begin_inset Formula $ID_{c}$
+\end_inset
+
+ that was also sent unencrypted, the attacker can now authenticate as this
+ client.
+\end_layout
+
+\begin_layout Standard
+The kinda is because such a dictionary attack is very expensive as the challenge
+ needs to be encrypted using each of the hashes in the dictionary and it
+ isn't nearly as fast as merely searching a plain hash in a dictionary of
+ hashes.
+\end_layout
+
+\begin_layout Subsection
+Perfect forward secrecy
+\end_layout
+
+\begin_layout Standard
+Yes.
+\end_layout
+
+\begin_layout Standard
+A leaked long term encryption key (the hashed password) wouldn't expose
+ the past (or future) exchange pub/priv keys that the client/server exchange
+ in the beginning of the exchange.
+\end_layout
+
+\begin_layout Standard
+It would however allow the attacker to authenticate as the client (and possibly
+ event request a password change) if the attacker manages it before the
+ real client changes the password.
+\end_layout
+
+\begin_layout Subsection
+(attacker with MITM).
+ How does the client verify the server identity? How does it prevent impersonati
+on?
+\end_layout
+
+\begin_layout Standard
+The client sends their pubkey encrypted using the hash of the password.
+ Meaning that only the server (who knows the hash of the password) will
+ be able to decrypt the message and send back the pubkey back.
+\end_layout
+
+\begin_layout Standard
+The client would decrypt, using the DH key, the response the server sent
+ and compare 
+\begin_inset Formula $g^{x}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+An attacker would need to know both the hashed password and 
+\begin_inset Formula $y$
+\end_inset
+
+ or 
+\begin_inset Formula $x$
+\end_inset
+
+ to be able to send 
+\begin_inset Formula $g^{x}$
+\end_inset
+
+ encrypted with the symmetric Diffie Hellman key so the client would know
+ to trust the attacker.
+\end_layout
+
+\begin_layout Standard
+Since the attacker doesn't have the hashed password, they wouldn't be able
+ to sent a response that the client would trust.
+\end_layout
+
+\begin_layout Subsection
+(attacker with MITM).
+ How does the server verify the client identity? How does it prevent impersonati
+on?
+\end_layout
+
+\begin_layout Standard
+The server authenticate the client is really the client by the fact that
+ the client was able to complete the challenge (meaning that the client
+ was able to decrypt 
+\begin_inset Formula $g^{y}$
+\end_inset
+
+ using the hashed password).
+\end_layout
+
+\begin_layout Standard
+An attacker would need to be able to send a solved challenge encrypted under
+ the DH key but since the attacker doesn't have the hashed password, it
+ would need to rely on the real client to solve the challenge.
+ But the client would first verify that they're talking to the real server
+ (as explained above) so the attacker wouldn't be able to get a solved challenge
+ (that is not encrypted by keys the attacker doesn't know).
+\end_layout
+
+\begin_layout Standard
+So the attacker wouldn't be able to get a solved challenge to send so the
+ server would refuse communication with it.
+\end_layout
+
+\begin_layout Subsection
+How does it prevent MITM?
+\end_layout
+
+\begin_layout Standard
+For MITM attack the attacker needs read knows the public keys of both the
+ server and the client.
+ But since the only time the server sends their pubkey, it's encrypted under
+ the hash of the password, the attacker wouldn't be able to decrypt it and
+ thus wouldn't be able to establish a MITM connection.
+\end_layout
+
+\begin_layout Subsection
+How does it protect from dictionary attack?
+\end_layout
+
+\begin_layout Standard
+For a dictionary attack on a parameter, an attacker needs that only a single
+ parameter would be unknown.
+ In described protocol, each step has two parameters that are unknown to
+ the attacker.
+\end_layout
+
+\begin_layout Standard
+In step 
+\begin_inset Formula $1$
+\end_inset
+
+, it's the password and the 
+\begin_inset Formula $g^{x}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+By the time we got to step 
+\begin_inset Formula $2$
+\end_inset
+
+ the server would have already gotten 
+\begin_inset Formula $g^{x}$
+\end_inset
+
+.
+ So the first argument has two parameters unknown and the second has 
+\begin_inset Formula $3$
+\end_inset
+
+ unknown parameters (
+\begin_inset Formula $K,g^{x},challenge$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+In step 
+\begin_inset Formula $3$
+\end_inset
+
+ we have 
+\begin_inset Formula $K$
+\end_inset
+
+ and 
+\begin_inset Formula $challenge$
+\end_inset
+
+ encrypted.
+\end_layout
+
+\end_body
+\end_document
