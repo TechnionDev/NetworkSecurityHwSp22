@@ -1,0 +1,1020 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass amsart
+\begin_preamble
+\usepackage{xcolor}
+\pagecolor[rgb]{0.15,0.15,0.15} %black
+\color[rgb]{1,1,1} %grey
+
+\newfontfamily\mylistingsfont{Noto Mono for Powerline}
+\definecolor{lbcolor}{rgb}{0.3,0.3,0.3}  
+\definecolor{lkwcolor}{rgb}{0.7,0.7,0.9}  
+\end_preamble
+\use_default_options true
+\begin_removed_modules
+theorems-ams
+\end_removed_modules
+\begin_modules
+eqs-within-sections
+figs-within-sections
+linguistics
+theorems-bytype
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "Arial"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 1cm
+\rightmargin 1cm
+\bottommargin 1.5cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip smallskip
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\listings_params "basicstyle={\mylistingsfont},language={C++},backgroundcolor={\color{lbcolor}},showstringspaces=false,xleftmargin=5mm,aboveskip=0pt,belowskip=0pt,keywordstyle={\bfseries\color{lkwcolor}},morekeywords={include, printf}"
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Network Security Hw5
+\end_layout
+
+\begin_layout Author
+Gur Telem 206631848
+\end_layout
+
+\begin_layout Section
+Password security in Unix
+\end_layout
+
+\begin_layout Subsection
+\begin_inset Formula $3$
+\end_inset
+
+ Ways to implement access control.
+ Example for each one
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Something I know
+\series default
+ - a password the user needs to enter
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+An attribute of mine
+\series default
+ - a fingerprint
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Something I have
+\series default
+ - a ubikey (physical two factor authentication).
+ A more classic example is a code through SMS (proves that you have the
+ owner's phone)
+\end_layout
+
+\begin_layout Subsection
+A system with passwords of 
+\begin_inset Formula $5$
+\end_inset
+
+ digits exactly.
+ Time for authenticating a single password is 
+\begin_inset Formula $6$
+\end_inset
+
+ seconds.
+ How much delay needs to be added for the security multiplier to be 
+\begin_inset Formula $1000$
+\end_inset
+
+ hours.
+\end_layout
+
+\begin_layout Standard
+Assume delay 
+\begin_inset Formula $t$
+\end_inset
+
+ in seconds.
+\end_layout
+
+\begin_layout Standard
+We want 
+\begin_inset Formula $\frac{10^{5}\cdot6\cdot t}{2}=1000\cdot60\Rightarrow t=\frac{2000}{10^{4}}=\frac{2}{10}$
+\end_inset
+
+.
+ 
+\series bold
+Meaning we need 
+\begin_inset Formula $t=0.2$
+\end_inset
+
+ seconds.
+\end_layout
+
+\begin_layout Subsection
+Why should a password be saved hashed rather than encrypt with a secret
+ key?
+\end_layout
+
+\begin_layout Standard
+There are multiple reasons:
+\end_layout
+
+\begin_layout Enumerate
+Privacy of users - when saving hashed passwords, the sysadmin doesn't know
+ the password itself of users
+\end_layout
+
+\begin_layout Enumerate
+Leaked password files - if the system was breached, then both the encryption
+ key and the passwords might be compromised, in this case, whoever got their
+ hands on those, don't need to put any effort to get the real passwords
+ of the users.
+ And since (most) humans doesn't care about security and reuse passwords,
+ the attacker just gained access to many of the accounts of many users (leaked
+ password for Sdarot might cause the users' bank account to be compromised)
+\end_layout
+
+\begin_layout Subsection
+In 
+\begin_inset Formula $Facelivre$
+\end_inset
+
+ the passwords are saved hashed but not salted.
+ Omer has the passwords file and wants to add likes to himself.
+ He phishes for passwords from other users.
+ Which users should Omer attack first.
+ Would a salt make his life harder?
+\end_layout
+
+\begin_layout Standard
+The first user Omer should attack is himself.
+ Thus he will be able to confirm that he knows the correct hashing method
+ used to hash the passwords (he would try to hash his own password and compare
+ it to the hashed password in the passwords file).
+\end_layout
+
+\begin_layout Standard
+Since the passwords aren't salted, identical passwords will be hashed to
+ the same value.
+ Meaning that Omer will be able to know which users have the same password.
+\end_layout
+
+\begin_layout Standard
+Thus, Omer should attack the users whose passwords are most common.
+ It's worth noting that it's better to attack those users one by one until
+ one of the phishing attacks results in the password, thus Omer can avoid
+ alerting suspecting users that an attack is taking place.
+\end_layout
+
+\begin_layout Standard
+Then Omer should attack the users with the second most common password and
+ so on and so forth.
+\end_layout
+
+\begin_layout Standard
+A salt for the passwords would make Omer's life harder as it would not allow
+ him to know how common a password is (as even identical passwords will
+ likely have different salted hashes.
+ So he wouldn't be able to effectively attack users as described above.
+\end_layout
+
+\begin_layout Subsection
+Tamar is an admin of a Unix server suggested to changes DES' (from the tutorial)
+: choose random 64bit code 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+admin_secret
+\end_layout
+
+\end_inset
+
+ and instead of encrypting 
+\begin_inset Formula $0$
+\end_inset
+
+, we will encrypt 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+admin_secret
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+An attacker has an account on the server and he has the passwords file.
+\end_layout
+
+\begin_layout Standard
+Compare the suggested change compared to the original solution with regard
+ to the following points:
+\end_layout
+
+\begin_layout Subsubsection
+Can the attacker recognize users with identical passwords?
+\end_layout
+
+\begin_layout Standard
+No.
+ But even before that he couldn't because there was a random salt for each
+ user.
+ So even if the passwords are identical, easily recognizing identical passwords
+ isn't possible due to the difference in value caused by the salt (regardless
+ of whether we use DES' on 
+\begin_inset Formula $0$
+\end_inset
+
+ or 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+admin_secret
+\end_layout
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+In this regard it would be the same as before.
+\end_layout
+
+\begin_layout Subsubsection
+How does the change affect the attacker's ability to attack a specific account
+\end_layout
+
+\begin_layout Standard
+More difficult.
+\end_layout
+
+\begin_layout Standard
+Assuming that the attacker doesn't know 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+admin_secret
+\end_layout
+
+\end_inset
+
+, he would first need to find that out using a comprehensive search on all
+ 
+\begin_inset Formula $64$
+\end_inset
+
+bit values.
+ Only after finding out that key, he would be able to attack a specific
+ user.
+\end_layout
+
+\begin_layout Standard
+Since the passwords are salted (but the attacker has the salts; from the
+ passwords file), the attacker would need to rehash the passwords.
+\end_layout
+
+\begin_layout Standard
+Meaning that after the modification, the security multiplier would increase
+ by (
+\begin_inset Formula $+$
+\end_inset
+
+) the security multiplier needed to find out 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+admin_secret
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+How does the change affect the attacker's ability to attack an arbitrary
+ account
+\end_layout
+
+\begin_layout Standard
+More difficult.
+\end_layout
+
+\begin_layout Standard
+By hash I mean the result of 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+DES'.
+\end_layout
+
+\begin_layout Standard
+Since the passwords are hashed, the attacker can't do a dictionary attack
+ on the most common passwords (hashing the password only once).
+ He would need to hash the password for each account with their own salt.
+\end_layout
+
+\begin_layout Standard
+Meaning that again like the previous section, it would increase the security
+ multiplier (
+\begin_inset Formula $+$
+\end_inset
+
+) by the security multiplier of 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+admin_secret
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+It's worth noting that in real life, the secret would be made of random
+ bits and not as easily guessed like 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+admin_secret
+\end_layout
+
+\end_inset
+
+.
+ So in real life a comprehensive search would be very expensive and not
+ at all practical, even with merely 
+\begin_inset Formula $64$
+\end_inset
+
+bit (relevant to the previous section as well).
+\end_layout
+
+\begin_layout Subsection
+Adding salts to hashed passwords in Unix
+\end_layout
+
+\begin_layout Standard
+And its efficiency against offline attackers.
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset Formula $EP=DES_{\text{user\_password}}^{25}\left(0\right)\oplus salt$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Identical passwords detection
+\series default
+ - not solved as we can run over the file once, XORing it with the salt
+ and effectively getting unsalted passwords file.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Mean
+\series default
+ 
+\series bold
+of passwords
+\series default
+ to search for 
+\series bold
+arbitrary account
+\series default
+ - also the same as unsalted hashes, as described above (worse than properly
+ salted passwords).
+ The mean for arbitrary account is much lower compared to a specific account
+ as we know is true regarding unsalted passwords file
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset Formula $EP=DES_{\text{user\_pass}\oplus salt\oplus25}\left(DES_{\text{user\_pass}\oplus salt\oplus24}\left(\dots DES_{\text{user\_pass}\oplus salt\oplus1}\left(0\right)\dots\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Identical passwords detection
+\series default
+ - It solves the issue as the 
+\begin_inset listings
+inline true
+status open
+
+\begin_layout Plain Layout
+
+user_password
+\end_layout
+
+\end_inset
+
+ is needed to remove the dependency of the salt from the hash.
+ Meaning that an attacker wouldn't be able to make the hashes independent
+ of the salt (such that identical passwords would be hashed the same).
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Mean of passwords
+\series default
+ to search for 
+\series bold
+arbitrary account
+\series default
+ - The mean of passwords is the same but each DES operation is more costly
+ (need to XOR with 
+\begin_inset Formula $25$
+\end_inset
+
+ different values).
+ It would be identical to the mean to crack a specific account's password.
+\end_layout
+
+\begin_layout Section
+IPSec
+\end_layout
+
+\begin_layout Subsection
+In IPSec in Tunnel Mode, the gateways add another IP header with IP of the
+ GW rather than the originator.
+\end_layout
+
+\begin_layout Subsubsection
+Why is the new header needed?
+\end_layout
+
+\begin_layout Standard
+When using Tunnel Mode, it is transparent for both the sender and the receiver
+ that the packet was transmitted in a secured way, the gateway needs to
+ retain the original IP header so as not to break the communication for
+ the sender/receiver.
+\end_layout
+
+\begin_layout Standard
+Thus, by adding another header, support for IPSec isn't required on the
+ endpoints themselves.
+\end_layout
+
+\begin_layout Subsubsection
+Will using the IP of the sender in the new header of the IPSec work?
+\end_layout
+
+\begin_layout Standard
+Assuming there's no NAT anywhere.
+\end_layout
+
+\begin_layout Standard
+No, it wouldn't always work.
+\end_layout
+
+\begin_layout Standard
+If the sender and/or the receiver were in a network layout with two gateways
+ that connect them to the WAN (say for load balancing), then it isn't determinis
+tic that the packet would be received by the gateway that contains the SAD
+ with the info required for the protocol to work.
+\end_layout
+
+\begin_layout Standard
+For example, if a sender was to send a packet that left through GW1, so
+ the response would contain an SPI corresponding to the SAD in GW2, so if
+ the response packet would to go through GW2 it would be blocked as the
+ information would failed to validate.
+\end_layout
+
+\begin_layout Standard
+But even without load balancing GWs, Assume there's the network layout as
+ such 
+\begin_inset Formula $C1\leftrightarrow GW1\leftrightarrow GW3\leftrightarrow GW2\leftrightarrow C2$
+\end_inset
+
+.
+ If the packet would to contain 
+\begin_inset Formula $C1$
+\end_inset
+
+ and 
+\begin_inset Formula $C2$
+\end_inset
+
+'s IPs, then the gateways on the way wouldn't know if they need to check
+ the packet or simply forward it to the next GW.
+\end_layout
+
+\begin_layout Subsection
+Replay of TCP packets.
+ Transport mode with AH.
+ How does a receiver can distinguish between valid TCP replay and an attacker's
+ replay
+\end_layout
+
+\begin_layout Subsubsection
+Replay through the TCP layer of the sender
+\end_layout
+
+\begin_layout Standard
+In that case, the sequence number in the AH headers would increase and thus
+ if the TCP layer would to replay the packet, the AH header would include
+ an incremented AH sequence number (and thus would not exactly identical
+ to the previous packet).
+\end_layout
+
+\begin_layout Subsubsection
+Replay from an attacker without changing the packet
+\end_layout
+
+\begin_layout Standard
+The packet would be received as is with identical sequence number in the
+ AH header.
+ Thus we would know it's an attacker who replayed the packet.
+\end_layout
+
+\begin_layout Subsubsection
+Replay from an attacker that changed the packet
+\end_layout
+
+\begin_layout Standard
+An attacker who tried to change the packet would render the AH authentication
+ as the protocol ensures that the packet was generated by a valid sender
+ (unless ofc the attacker changes fields like TTL which aren't validated
+ but in that case it would be identical to the previous case).
+\end_layout
+
+\begin_layout Subsection
+SPD of the IPSec layer will include
+\end_layout
+
+\begin_layout Standard
+the following rule
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="10">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Rule
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Direction
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Src Addr
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dst Addr
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Next Prot
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Src Port
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Dst Port
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ACK
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Action
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Additional Params
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Generic_in
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+in
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+any
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+any
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+AH or ESP
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Any
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Any
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Any
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+forward
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As described in the booklet of the course.
+ The mechanism can be used as packet filtering firewall.
+\end_layout
+
+\begin_layout Standard
+This rule describes that exactly.
+\end_layout
+
+\begin_layout Standard
+It assume there's a network as such 
+\begin_inset Formula $C1\leftrightarrow GW1\leftrightarrow\left(GW3\leftrightarrow\left(GW2\leftrightarrow C2\right)\right)$
+\end_inset
+
+.
+ If we want 
+\begin_inset Formula $GW3$
+\end_inset
+
+ to be used as firewall which will allow encrypted packets to pass but we
+ want for some reason that 
+\begin_inset Formula $GW2$
+\end_inset
+
+ will be the GW responsible for the encrypting and decrypting the packets,
+ then we would use a line like the above in 
+\begin_inset Formula $GW3$
+\end_inset
+
+'s SPD.
+\end_layout
+
+\begin_layout Subsection
+Receiving a secured packet got modified
+\end_layout
+
+\begin_layout Standard
+The modified flow re-encrypts using the single SPI returned from the SPD
+ and compares the encrypted packet to the packet received before encryption
+ (this part is instead of merely comparing the SPI of the original packet
+ with the SPI in the SPD).
+\end_layout
+
+\begin_layout Standard
+Assuming no two SAs have the same encryption key, then the re-encrypted
+ packet would be equal to the original if and only if the encryption key
+ is the same as the one used to decrypt (encryption is 
+\begin_inset Formula $1:1$
+\end_inset
+
+ function) and this if and only if the SPIs are identical as there are no
+ two SAs with identical keys.
+\end_layout
+
+\begin_layout Standard
+Thus the modified part is equivalent to the unmodified flow, security wise.
+\end_layout
+
+\begin_layout Standard
+Regarding efficiency, this is less effective as we proved that the flow
+ is equivalent security wise but it has extra expensive steps (comparing
+ the entire packet content, re-encrypting, double access to the SAD).
+ So the modified flow is less efficient.
+\end_layout
+
+\begin_layout Subsection
+The authentication on the ESP is done only on the encrypted part and not
+ on the rest of the ESP header fields
+\end_layout
+
+\begin_layout Standard
+This is less secure, because it make a replay attack possible for an attacker.
+ All the attacker needs to do is to increase the ESP's sequence number and
+ since it isn't authenticated now, a replay attack was achieved.
+\end_layout
+
+\begin_layout Standard
+Also, the modified flow allows a DoS attack.
+ The attacker would inspect each packet that is sent to the host and replay
+ the same packet with higher and higher sequence numbers.
+ Thus, using a replay attack, it would cause the host to reject legitimate
+ request from clients (the check that the sequence number is higher than
+ the one in the SA will fail so it would drop the packet).
+\end_layout
+
+\begin_layout Standard
+The modified flow is less efficient because such a security breach could
+ cost a company millions.
+\end_layout
+
+\begin_layout Standard
+Seriously though, it may be a little more efficient computing wise as the
+ authentication needs to be calculated on less data but it's relatively
+ little data and pretty negligible.
+\end_layout
+
+\begin_layout Subsection
+In the encryption of the ESP, the sequence number is encrypted as well
+\end_layout
+
+\begin_layout Standard
+It's still as secure but not very efficient.
+ Maybe a tiny bit less secure depending on how you look at it.
+\end_layout
+
+\begin_layout Standard
+Since the sequence number is encrypted, it can't be verified before the
+ MAC (which would allow an attacker to force MAC verification instead of
+ the host quickly able to drop the packet for mismatching sequence number).
+\end_layout
+
+\begin_layout Standard
+I guess the answer you expect though is that it wouldn't affect security
+ (written in the course's booklet at the beginning of page 
+\begin_inset Formula $153$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+As detailed above, instead of quickly dropping at the beginning packets
+ with mismatching sequence numbers, it would consume more resources from
+ the host which is never a good thing.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+So final answer, almost as secure, less efficient.
+\end_layout
+
+\end_body
+\end_document
