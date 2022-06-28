@@ -716,7 +716,7 @@ IKE
 status open
 
 \begin_layout Plain Layout
-A
+A.
 \end_layout
 
 \end_inset
@@ -729,7 +729,7 @@ Doesn't retain IKE's security
 status open
 
 \begin_layout Plain Layout
-B
+B.
 \end_layout
 
 \end_inset
@@ -742,7 +742,7 @@ Retains security ; Doesn't reduce the amount of exchanged data
 status open
 
 \begin_layout Plain Layout
-C
+C.
 \end_layout
 
 \end_inset
@@ -876,6 +876,220 @@ s specified with weaker ones.
 
 \begin_layout Section
 Wireless
+\end_layout
+
+\begin_layout Subsection
+BREAP
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+a.
+\end_layout
+
+\end_inset
+
+How does each side verify the identity of the other?
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The AS verifies the supplicant's identity after step 5 in which the client
+ sends 
+\begin_inset Formula $password_{Supplicant}$
+\end_inset
+
+ encrypted under the AS's pubkey.
+\end_layout
+
+\begin_layout Standard
+If the supplicant wasn't legit, they wouldn't know the password.
+\end_layout
+
+\begin_layout Standard
+The client verifies the AS after step 6 where the AS signed the supplicant's
+ challenge with the AS's privkey.
+\end_layout
+
+\begin_layout Standard
+No one but the AS and supplicant know what 
+\begin_inset Formula $challenge_{supplicant}$
+\end_inset
+
+ is because it was sent encrypted under the pubkey of the server.
+\end_layout
+
+\begin_layout Standard
+No one but the AS would be able to able to sign that challenge.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+b.
+\end_layout
+
+\end_inset
+
+Is the protocol exposed to DoS attacks on the server? Explain
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Yes.
+\end_layout
+
+\begin_layout Standard
+Just before the AS sends a response in step 
+\begin_inset Formula $6$
+\end_inset
+
+, they need to decrypt (using the RSA privkey) the message the client encrypted.
+ Since before decrypting, they don't know if the client is legit, an attacker
+ would be able to send random text in step 
+\begin_inset Formula $5$
+\end_inset
+
+ and the server would have to decrypt all of the messages before realizing
+ they're garbage.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+c.
+\end_layout
+
+\end_inset
+
+Does comply with PFS? Explain
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+No.
+\end_layout
+
+\begin_layout Standard
+The protocol is susceptible to exposed keys compromising past communication.
+\end_layout
+
+\begin_layout Standard
+The only unknown in the communication is the privkey of the AS, if that
+ is exposed, then the attacker would be able to decrypt all of the 
+\begin_inset Formula $challenge_{supplicant}$
+\end_inset
+
+s and then calculate the XOR with 
+\begin_inset Formula $challenge_{AS}$
+\end_inset
+
+ and thus to get the PMK for every session.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+d.
+\end_layout
+
+\end_inset
+
+Is the protocol secured? Explain
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The protocol is secured.
+\end_layout
+
+\begin_layout Standard
+The supplicant's challenge is only known to the AS and supplicant since
+ even when the AS respond with the signed thingy, it's only signing the
+ hash of the challenge.
+ Thus not exposing the challenge of the supplicant.
+\end_layout
+
+\begin_layout Standard
+An attacker can't get their hands on the PMK so the protocol is secured.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+e.
+\end_layout
+
+\end_inset
+
+Does the protocol protects from Rogue Access Point attack? Explain
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Protected.
+\end_layout
+
+\begin_layout Standard
+With the assumption that the AS sends the Authenticator the PMK in a secure
+ manner, a rogue AP wouldn't be able to inspect the traffic as they won't
+ have access to the PMK (as explained above).
+\end_layout
+
+\begin_layout Standard
+Assuming the layout is 
+\begin_inset Formula $supplicant\leftrightarrow RogueAP\leftrightarrow Authenticator$
+\end_inset
+
+: to detect the RogueAP the client can send a spoofed packet with the src
+ set to the 
+\begin_inset Formula $Authenticator$
+\end_inset
+
+ and the destination set to itself, if the TTL didn't change, then there's
+ a Rogue AP on the network.
+\end_layout
+
+\begin_layout Standard
+If the RogueAP does decrement the TTL, then we can simply send the initial
+ TTL of the packet encrypted and the Authenticator will check if it was
+ lowered more than once (meaning there's another endpoint between the supplicant
+ and the Authenticator).
+\end_layout
+
+\begin_layout Standard
+We can generalize the solution to fit a more complex network layout if each
+ AP in the network is aware of the structure of the layout and is sharing
+ a common key (or a key with each other AP).
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+AS and Authenticator don't have a secured line
+\end_layout
+
+\begin_layout Standard
+Well, an attacker would be able to see the PMK going between the Authenticator
+ and the AS and then they would be able to not only decrypt messages between
+ the supplicants and the Authenticator (after the connection is initialized)
+ but they will also be able to create those messages and request data from
+ the Authenticator.
 \end_layout
 
 \end_body
