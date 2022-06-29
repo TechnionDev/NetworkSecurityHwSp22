@@ -1052,6 +1052,16 @@ With the assumption that the AS sends the Authenticator the PMK in a secure
 \end_layout
 
 \begin_layout Standard
+If at any of the steps, either the AS, Authenticator and/or the supplicant
+ get unexpected data, it might be that something (possibly rogue AP) tempered
+ with the packets.
+\end_layout
+
+\begin_layout Standard
+To actually detect:
+\end_layout
+
+\begin_layout Standard
 Assuming the layout is 
 \begin_inset Formula $supplicant\leftrightarrow RogueAP\leftrightarrow Authenticator$
 \end_inset
@@ -1090,6 +1100,13 @@ Well, an attacker would be able to see the PMK going between the Authenticator
  the supplicants and the Authenticator (after the connection is initialized)
  but they will also be able to create those messages and request data from
  the Authenticator.
+\end_layout
+
+\begin_layout Standard
+Meaning, that after an attacker saw a PMK going from the AS to the Authenticator
+, they would be able to impersonate the supplicant for which the PMK was
+ originally created, including getting access to the network from the Authentica
+tor.
 \end_layout
 
 \end_body
